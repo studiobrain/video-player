@@ -1,0 +1,250 @@
+//colors
+$primary: #1f1f1f;
+$primaryLight: #353535;
+$primaryLighter: #747474;
+$primaryLighterTransparent: rgba(116, 116, 116, 0.25);
+$primaryLightest: #b3b3b3;
+$primaryTeal: #04a5df;
+$primaryTealTransparent: rgba(4, 165, 223, 0.25);
+$primaryTealDark: #0479a3;
+$primaryBlue: #2f8bff;
+$primaryBlueDark: #1a063a;
+$primaryOrange: #fbbb36;
+$primaryOrangeDark: #ff4d06;
+$primaryOrangeTransparent: rgba(251, 187, 54, 0.25);
+$lightestGray: #efefef;
+
+//variables
+$boxShadowDefault: 0 2px 4px rgba(0, 0, 0, 0.25);
+$menuWidth: 350px;
+$filtersWidth: 400px;
+$mapWidth: calc(100% - #{$menuWidth});
+$defaultTransition: all 0.3s ease-in-out;
+$cardShadow: 0px 0 4px 1px rgba(0, 0, 0, 0.3);
+$borderRadius: 10px;
+
+//animations
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dropToReveal {
+  from {
+    top: -20px;
+    opacity: 0;
+  }
+  to {
+    top: 0px;
+    opacity: 1;
+  }
+}
+
+@mixin rotationAnim {
+  animation: rotate 0.5s linear infinite;
+}
+
+@keyframes revealError {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    right: 10px;
+  }
+}
+
+//mixins
+@mixin menuLayoutWidth {
+  width: 100px;
+  @media only screen and (max-width: 767px) {
+    width: 15vmin;
+  }
+}
+
+@mixin menuFontSize {
+  font-size: 24px;
+  @media only screen and (max-width: 767px) {
+    width: 15vmin;
+  }
+}
+
+@mixin minLayoutWidth {
+  width: 50px;
+  @media only screen and (max-width: 767px) {
+    width: 10vmin;
+  }
+}
+
+@mixin minLayoutHeight {
+  height: 50px;
+  @media only screen and (max-width: 767px) {
+    height: 10vmin;
+  }
+}
+
+@mixin minLayoutSize {
+  width: 50px;
+  height: 50px;
+  @media only screen and (max-width: 767px) {
+    width: 10vmin;
+    height: 10vmin;
+  }
+
+  svg {
+    width: 50%;
+  }
+}
+
+@mixin reportCloseButtonTop {
+  top: 70px;
+  @media only screen and (max-width: 767px) {
+    top: calc(10vmin + 20px);
+  }
+}
+
+@mixin menuRight {
+  right: -50px;
+  @media only screen and (max-width: 767px) {
+    right: -10vmin;
+  }
+
+  svg {
+    width: 50%;
+  }
+}
+
+@mixin containerTreatment {
+  border-radius: $borderRadius;
+  background: white;
+  padding: 10px;
+  overflow: hidden;
+}
+
+@mixin icon {
+  width: 40%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  fill: white;
+}
+
+@mixin card {
+  border: 1px solid $primaryLightest;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+}
+
+@mixin pill {
+  background: white;
+  color: $primary;
+  font-size: 12px;
+  font-weight: lighter;
+  align-items: center;
+  padding: 3px 10px 3px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  width: auto;
+  border: 1px solid $primary;
+  line-height: 13px;
+  max-width: max-content;
+
+  svg {
+    margin-left: 10px;
+    justify-self: flex-end;
+    width: 20px;
+  }
+}
+
+@mixin severityCard {
+  @include card;
+  padding: 5px 5px 10px;
+  margin: 0px;
+  display: grid;
+  align-items: baseline;
+  grid-auto-rows: auto auto;
+}
+
+@mixin infoCard {
+  background: $lightestGray;
+  border-radius: 8px;
+}
+
+@mixin circleButton {
+  background: $primary;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @include minLayoutSize;
+
+  &:hover,
+  &:active {
+    background: $primaryLight;
+    color: white;
+  }
+
+  svg {
+    @include icon;
+
+    path {
+      stroke: white;
+    }
+  }
+}
+
+@mixin circleButtonLight {
+  @include minLayoutSize;
+  @include circleButton;
+  background: $primaryLighter;
+
+  &:hover,
+  &:active {
+    background: $primaryLightest;
+    color: white;
+  }
+}
+
+@mixin menuButton {
+  right: 25px;
+  color: white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  top: 100px;
+  z-index: 2;
+  @include minLayoutSize;
+}
+
+@mixin filtersButton {
+  color: white;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  top: 20px;
+  left: -60px;
+  background: $primary;
+  z-index: 2;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  @include minLayoutSize;
+  transition: $defaultTransition;
+
+  &.open {
+    left: 0;
+  }
+}

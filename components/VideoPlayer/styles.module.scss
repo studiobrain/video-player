@@ -1,0 +1,408 @@
+@import '../../styles/variables.scss';
+
+.videoContainer {
+  height: fit-content;
+  position: relative;
+  display: grid;
+  grid-gap: 11px;
+  grid-template-rows: 1fr auto 50px;
+  max-width: 80vw;
+
+  button {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    background: $primaryTeal;
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    @include minLayoutHeight;
+    max-height: 40px;
+    position: relative;
+    padding: 0 15px;
+
+    &.link {
+      color: $primaryTeal;
+      background: transparent;
+      font-size: 14px;
+      font-weight: lighter;
+    }
+
+    &.light {
+      background: $primary;
+      color: $primaryTeal;
+    }
+
+    &.light,
+    &.light {
+      color: $primaryTealDark;
+    }
+
+    &:hover,
+    &:active {
+      opacity: 0.75;
+    }
+
+    svg.spinner {
+      position: absolute;
+      right: 10px;
+      transform: translateX(-50%);
+      @include rotationAnim;
+    }
+
+    &.confirm,
+    &.decline,
+    &.control {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.decline {
+      background: $primaryOrangeDark;
+    }
+
+    &.control {
+      background: $primaryLight;
+    }
+
+    &.icon {
+      background: none;
+
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    &.buy {
+      width: auto;
+      max-width: 100px;
+      margin-left: 10px;
+    }
+  }
+
+  button:disabled,
+  button[disabled] {
+    background: $primaryLighter;
+    pointer-events: none;
+  }
+
+  .video {
+    position: relative;
+
+    video {
+      width: 100%;
+      outline: none;
+      border-radius: 8px;
+      overflow: hidden;
+
+      .videoControl {
+        font-family: 'Open Sans', sans-serif;
+        visibility: visible;
+        opacity: 1;
+      }
+
+      @media only screen and (max-width: 1024px) {
+        width: 100%;
+        min-width: 100%;
+      }
+    }
+  }
+
+  .loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: lighter;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    top: 0;
+  }
+
+  .videoControls {
+    width: 100%;
+    height: max-content;
+    background: $primary;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    height: 60px;
+
+    .scrubbers {
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: 10px;
+      margin: 10px;
+
+      svg {
+        color: $primaryLightest;
+        cursor: pointer;
+
+        &:hover,
+        &:focus,
+        &:active {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .videoControlContainer {
+    height: 40px;
+    width: calc(100% - 210px);
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 3px;
+    position: absolute;
+    left: 85px;
+
+    .playHead {
+      position: absolute;
+      width: max-content;
+      height: 30px;
+      background: $primary;
+      border-radius: 20px;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 12px;
+      font-weight: lighter;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      bottom: -20px;
+    }
+
+    .videoSeek {
+      height: 100%;
+      background: $primaryTealDark;
+      transition: all 0.3s linear;
+      border-radius: 3px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      .marker {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 0;
+        width: 2px;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.25);
+        transition: $defaultTransition;
+
+        &:before {
+          content: '';
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background: $primaryTeal;
+          opacity: 0;
+          transition: $defaultTransition;
+          top: -4px;
+          border-radius: 50%;
+        }
+
+        &:hover,
+        &:active,
+        &:focus,
+        &.active {
+          background: white;
+          z-index: 2;
+          &::before {
+            transform: scale(4);
+            z-index: 1;
+            opacity: 0.5;
+          }
+          &::after {
+            background: white;
+          }
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          width: 10px;
+          height: 10px;
+          background: $primaryLightest;
+          z-index: 2;
+          top: -4px;
+          transition: $defaultTransition;
+        }
+      }
+
+      .markerData {
+        @include card;
+        width: max-content;
+        height: min-content;
+        max-width: 160px;
+        position: absolute;
+        top: 70px;
+        display: grid;
+        color: $primary;
+        font-size: 12px;
+        font-weight: lighter;
+        grid-template-rows: min-content;
+        z-index: 2;
+        min-width: 120px;
+
+        .grade {
+          font-weight: bold;
+          font-size: 14px;
+          padding: 5px 10px 0;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+          color: $primary;
+
+          span {
+            color: $primaryLighter;
+          }
+
+          svg {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: white;
+            border-radius: 50%;
+          }
+        }
+
+        .description {
+          font-weight: lighter;
+          font-size: 12px;
+          padding: 5px 10px;
+        }
+
+        &::before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          background: white;
+          transform: rotate(45deg);
+          position: absolute;
+          left: calc(50% - 23px);
+          bottom: -6px;
+          padding: 5px 10px;
+          z-index: -1;
+          display: none;
+        }
+
+        .actions {
+          display: grid;
+          grid-auto-flow: column;
+          grid-gap: 5px;
+          padding: 5px;
+
+          button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.confirm {
+            }
+
+            &.decline {
+              background: $primaryLighter;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .labelBox {
+    width: 15vmin;
+    height: 10vmin;
+    border: 2px solid $primaryTeal;
+    background: rgba(255, 255, 255, 0.25);
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%);
+    left: 50%;
+    transform: translateY(-50%);
+    border-radius: 4px;
+    border-top-left-radius: 0;
+
+    .label {
+      width: fit-content;
+      height: 20px;
+      position: absolute;
+      top: -22px;
+      background: white;
+      font-size: 12px;
+      padding: 0 10px;
+      left: -2px;
+      border-radius: 4px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      color: $primary;
+    }
+  }
+
+  .videoPlayerActions {
+    margin: 5px;
+    @include circleButton;
+    background: rgba(255, 255, 255, 0.15);
+
+    svg {
+      color: white;
+    }
+
+    @include minLayoutSize;
+  }
+
+  .detections {
+    align-items: center;
+    display: grid;
+    border-radius: 10px;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 10px;
+
+    span {
+      font-weight: bold;
+    }
+
+    .buttonGroup {
+      display: grid;
+      grid-template-columns: 60px 60px;
+      grid-gap: 10px;
+
+      .frameButton {
+        background: none;
+
+        svg {
+          color: $primary;
+        }
+      }
+    }
+
+    p {
+      padding-left: 10px;
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+
+  .detectionPill {
+    @include pill;
+  }
+}
+
+
